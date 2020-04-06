@@ -1,11 +1,18 @@
 let player;
 let ball;
-let defender;
+let defender = [];
+let numberofDefenders = 20;
+let defenderRows = 3;
+let defenderColumns = 3;
+
 function setup() {
   createCanvas(1100, 700);
   player = new Player();
   ball = new Ball();
-  defender = new Defender();
+  for (let i = 0; i < defenderColumns; i++) {
+    defender.push(new Defender());
+  }
+  console.log(defender);
 }
 
 function draw() {
@@ -19,5 +26,8 @@ function draw() {
   ball.move();
   ball.wallMeet();
   ball.playerMeet(player);
-  defender.display();
+  for (let j = 0; j < defender.length; j++) {
+    console.log(defender[j]);
+    defender[j].display();
+  }
 }
