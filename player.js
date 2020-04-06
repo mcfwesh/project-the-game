@@ -16,3 +16,9 @@ class Player {
     }
   }
 }
+// this.x
+// lefts= this.x or player.x
+// right= this.x+this.width
+// top=thix.y
+// bottom= this.y +this.height
+// let xCollison=ball.leftside>playerleft && ball.leftside<playerright

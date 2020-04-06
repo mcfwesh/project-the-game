@@ -1,9 +1,11 @@
 let player;
 let ball;
+let defender;
 function setup() {
   createCanvas(1100, 700);
   player = new Player();
   ball = new Ball();
+  defender = new Defender();
 }
 
 function draw() {
@@ -15,5 +17,7 @@ function draw() {
   player.checkMove();
   ball.display();
   ball.move();
-  ball.playerMeet();
+  ball.wallMeet();
+  ball.playerMeet(player);
+  defender.display();
 }
