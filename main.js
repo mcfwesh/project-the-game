@@ -1,7 +1,9 @@
 let player;
+let ball;
 function setup() {
   createCanvas(1100, 700);
   player = new Player();
+  ball = new Ball();
 }
 
 function draw() {
@@ -11,4 +13,7 @@ function draw() {
   rect(0, 0, width, height);
   player.display();
   player.checkMove();
+  ball.display();
+  ball.move();
+  ball.playerMeet();
 }
