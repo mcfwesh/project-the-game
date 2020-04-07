@@ -1,8 +1,8 @@
-class Defender {
+class Attacker {
   constructor(x) {
     this.x = x;
-    this.y = 120;
-    this.length = 150;
+    this.y = 360;
+    this.length = 80;
     this.breadth = 100;
     this.collision = 0;
   }

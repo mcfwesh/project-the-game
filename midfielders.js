@@ -1,7 +1,7 @@
-class Defender {
+class Midfielder {
   constructor(x) {
     this.x = x;
-    this.y = 120;
+    this.y = 240;
     this.length = 150;
     this.breadth = 100;
     this.collision = 0;
