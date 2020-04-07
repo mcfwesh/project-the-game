@@ -2,14 +2,15 @@ class Ball {
   constructor() {
     this.x = 0; //player.x + player.length / 2;
     this.y = height / 2; //player.y - 10;
-    this.r = 20;
+    this.r = 30;
     this.speedX = 5;
     this.speedY = 5;
     this.directionX = 1;
     this.directionY = 1;
+    this.ballImage = loadImage("assets/soccer-ball-transparent.png");
   }
   display() {
-    ellipse(this.x, this.y, this.r * 2);
+    image(this.ballImage, this.x, this.y, ball.r, ball.r);
   }
 
   move() {

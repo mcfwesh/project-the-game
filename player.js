@@ -3,10 +3,12 @@ class Player {
     this.length = 100;
     this.breadth = 30;
     this.x = (width - this.length) / 2;
-    this.y = height - 50;
+    this.y = height - 100;
+    this.playerImage = loadImage("assets/player.png");
   }
   display() {
     rect(mouseX, this.y, this.length, this.breadth);
+    image(this.playerImage, mouseX, height - 70, this.length, 70);
   }
   checkMove() {
     if (mouseX <= 0) {
