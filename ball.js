@@ -1,13 +1,14 @@
 class Ball {
   constructor() {
-    this.x = 0; //player.x + player.length / 2;
-    this.y = height / 2; //player.y - 10;
+    this.x = 400; //player.x + player.length / 2;
+    this.y = 0; //player.y - 10;
     this.r = 30;
     this.speedX = 5;
     this.speedY = 5;
     this.directionX = 1;
     this.directionY = 1;
     this.ballImage = loadImage("assets/soccer-ball-transparent.png");
+    //this.start = false;
   }
   display() {
     image(this.ballImage, this.x, this.y, ball.r, ball.r);
@@ -36,8 +37,10 @@ class Ball {
       this.x - this.r < mouseX + player.length &&
       this.directionY > 0
     ) {
+      //this.start = true;
       this.directionY *= -1;
     }
+    console.log("meee");
   }
   hitOpponent(opponent) {
     if (

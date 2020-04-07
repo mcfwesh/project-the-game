@@ -2,13 +2,14 @@ class Player {
   constructor() {
     this.length = 100;
     this.breadth = 30;
-    this.x = (width - this.length) / 2;
-    this.y = height - 100;
+    // this.x = (width - this.length) / 2;
+    this.y = height - 150;
     this.playerImage = loadImage("assets/player.png");
+    this.health = 3;
   }
   display() {
     rect(mouseX, this.y, this.length, this.breadth);
-    image(this.playerImage, mouseX, height - 70, this.length, 70);
+    image(this.playerImage, mouseX, height - 120, this.length, 120);
   }
   checkMove() {
     if (mouseX <= 0) {

@@ -2,12 +2,14 @@ class Attacker {
   constructor(x) {
     this.x = x;
     this.y = 360;
-    this.length = 80;
-    this.breadth = 100;
+    this.length = 120;
+    this.breadth = 150;
     this.collision = 0;
+    this.attackerImage = loadImage("assets/attacker.png");
+    this.count = 2;
   }
   display() {
-    rect(this.x, this.y, this.length, this.breadth);
+    image(this.attackerImage, this.x, this.y, this.length, this.breadth);
   }
   move() {
     if (this.collision != 0) {
