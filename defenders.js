@@ -6,7 +6,7 @@ class Defender {
     this.breadth = 150;
     this.collision = 0;
     this.defenderImage = loadImage("assets/defender.png");
-    this.count = 2;
+    this.count = 1;
   }
   display() {
     image(this.defenderImage, this.x, this.y, this.length, this.breadth);
@@ -30,7 +30,6 @@ class Defender {
       if (this.x + this.length > other.x + other.length) {
         this.collision = 3;
       } else {
-        console.log("Markus");
         this.collision = -3;
       }
     }

@@ -3,8 +3,8 @@ class Ball {
     this.x = 0; //player.x + player.length / 2;
     this.y = 200; //player.y - 10;
     this.r = 30;
-    this.speedX = 5;
-    this.speedY = 5;
+    this.speedX = 8;
+    this.speedY = 8;
     this.directionX = 1;
     this.directionY = 1;
     this.ballImage = loadImage("assets/soccer-ball-transparent.png");
@@ -33,8 +33,8 @@ class Ball {
     if (
       this.y < player.y &&
       this.y + this.r > player.y &&
-      this.x + this.r > mouseX &&
-      this.x - this.r < mouseX + player.length &&
+      this.x + this.r > player.x &&
+      this.x - this.r < player.x + player.length &&
       this.directionY > 0
     ) {
       //this.start = true;

@@ -6,7 +6,7 @@ class Attacker {
     this.breadth = 150;
     this.collision = 0;
     this.attackerImage = loadImage("assets/attacker.png");
-    this.count = 2;
+    this.count = 1;
   }
   display() {
     image(this.attackerImage, this.x, this.y, this.length, this.breadth);

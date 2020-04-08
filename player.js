@@ -2,20 +2,38 @@ class Player {
   constructor() {
     this.length = 100;
     this.breadth = 30;
-    // this.x = (width - this.length) / 2;
-    this.y = height - 150;
+    this.x = (width - this.length) / 2;
+    this.y = height - 120;
     this.playerImage = loadImage("assets/player.png");
     this.health = 3;
+    this.moveRight = false;
+    this.moveLeft = false;
+    this.life = 5;
+    console.log(this.life);
   }
   display() {
-    rect(mouseX, this.y, this.length, this.breadth);
-    image(this.playerImage, mouseX, height - 120, this.length, 120);
+    rect(this.x, this.y, this.length, this.breadth);
+    image(
+      this.playerImage,
+      this.x + this.length / 2 - 50,
+      height - 90,
+      100,
+      100
+    );
+  }
+  move(speed) {
+    this.x += speed;
   }
   checkMove() {
-    if (mouseX <= 0) {
-      mouseX = 0;
-    } else if (mouseX + this.length >= width) {
-      mouseX = width - this.length;
+    if (this.moveLeft) {
+      this.move(-10);
+    } else if (this.moveRight) {
+      this.move(10);
+    }
+    if (this.x <= 0) {
+      this.x = 0;
+    } else if (this.x + this.length >= width) {
+      this.x = width - this.length;
     }
   }
 }

@@ -6,7 +6,7 @@ class Midfielder {
     this.breadth = 150;
     this.collision = 0;
     this.midfielderImage = loadImage("assets/midfielder.png");
-    this.count = 3;
+    this.count = 1;
   }
   display() {
     image(this.midfielderImage, this.x, this.y, this.length, this.breadth);

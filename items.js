@@ -33,29 +33,49 @@ class Items {
   // This should have if statements, depending on what the reward is (rewardObject.reward)
   executeReward(player, ball) {
     if (this.reward === "big player") {
-      player.length += 5;
+      let index = items.indexOf(this);
+      console.log(index);
+      items.splice(index, 1);
+      player.length += 1;
+      // console.log("bigplayer");
     } else if (this.reward === "slow ball") {
-      ball.speedX -= 0.5;
-      ball.speedY -= 0.5;
+      let index = items.indexOf(this);
+      console.log(index);
+      items.splice(index, 1);
+      ball.speedX -= 1;
+      ball.speedY -= 1;
+      // console.log("slowball");
     } else if (this.reward === "quick ball") {
+      let index = items.indexOf(this);
+      console.log(index);
+      items.splice(index, 1);
       ball.speedX += 0.5;
       ball.speedY += 0.5;
+      // console.log("quickball");
     } else if (this.reward === "small player") {
-      player.length -= 5;
+      let index = items.indexOf(this);
+      console.log(index);
+      items.splice(index, 1);
+      player.length > 30 ? (player.length -= 5) : (ball.r = 30);
+
+      // console.log("small player");
     } else if (this.reward === "small ball") {
-      ball.length -= 5;
+      let index = items.indexOf(this);
+      console.log(index);
+      items.splice(index, 1);
+      ball.r > 10 ? (ball.r -= 1) : (ball.r = 10);
+
+      console.log("smallball");
     }
   }
   playerMeet(player) {
     if (
-      this.y < player.y &&
-      this.y + this.r > player.y &&
-      this.x + this.r > mouseX &&
-      this.x - this.r < mouseX + player.length &&
-      this.directionY > 0
+      this.y < player.y + player.breadth &&
+      this.y + this.breadth > player.y &&
+      this.x + this.length > this.x &&
+      this.x < this.x + player.length
     ) {
-      console.log("meets");
-      this.executeReward();
+      this.executeReward(player, ball);
     }
   }
 }

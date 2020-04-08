@@ -25,8 +25,9 @@ let rewardObject = [
   { img: medalImage, reward: "big player" },
 ];
 
-let gamePlay = false;
-let youWin = false;
+let newItem;
+
+let keeperIsNotActive = true;
 
 function preload() {
   pitchImage = loadImage("assets/half-rotate.png");
@@ -43,21 +44,28 @@ function setup() {
   player = new Player();
   ball = new Ball();
 
-  for (let j = 0; j < defenderRows; j++) {
-    defender.push(new Defender(350 + 200 * j));
-  }
-  for (let j = 0; j < midfielderRows; j++) {
-    midfielder.push(new Midfielder(425 + 300 * j));
-  }
+  // for (let j = 0; j < defenderRows; j++) {
+  //   defender.push(new Defender(350 + 200 * j));
+  // }
+  // for (let j = 0; j < midfielderRows; j++) {
+  //   midfielder.push(new Midfielder(425 + 300 * j));
+  // }
   for (let j = 0; j < attackerRows; j++) {
     attacker.push(new Attacker(455 + 300 * j));
+    // let randomNumber = Math.floor(Math.random() * rewardObject.length);
+    // newItem = new Items(
+    //   attacker[j].x,
+    //   attacker[j].y,
+    //   rewardObject[randomNumber]
+    // );
   }
-  keeper = new Keeper();
   goalpost = new Goalpost();
+  keeper = new Keeper();
 }
 
-let startScreen = false; // change to true
+// let startScreen = false; // change to true
 
+//START of DRAW()
 function draw() {
   //if(level === 0) {
   //  image() start
@@ -76,16 +84,16 @@ function draw() {
     stroke(3);
     strokeWeight(3);
     player.display();
-    if (gamePlay) player.checkMove();
-    if (gamePlay) ball.display();
-    if (gamePlay) goalpost.display();
-    if (gamePlay) keeper.display();
-    if (gamePlay) keeper.move();
-    if (gamePlay) keeper.boundaries();
+    player.checkMove();
+    ball.display();
+    // goalpost.display();
+    // keeper.display();
+    // keeper.move();
+    // keeper.boundaries();
 
-    if (gamePlay) ball.move();
-    if (gamePlay) ball.wallMeet();
-    if (gamePlay) ball.playerMeet(player);
+    ball.move();
+    ball.wallMeet();
+    ball.playerMeet(player);
     if (items.length > 0) {
       items.forEach((item) => item.display());
       items.forEach((item) => item.move());
@@ -103,11 +111,7 @@ function draw() {
         ball.directionX *= -1;
         // Get a random number that is from 0 and to the length -1 of the array of objects
         let randomNumber = Math.floor(Math.random() * rewardObject.length);
-        let newItem = new Items(
-          defender[i].x,
-          defender[i].y,
-          rewardObject[randomNumber]
-        ); // Pass as arg the random reward object from your array of objects
+        let newItem = new Items(defender[i].x, defender[i].y, rewardObject[2]); // Pass as arg the random reward object from your array of objects
         items.push(newItem);
         newItem.show = true;
         newItem.playerMeet(player);
@@ -134,7 +138,7 @@ function draw() {
         let newItem = new Items(
           midfielder[i].x,
           midfielder[i].y,
-          rewardObject[randomNumber]
+          rewardObject[2]
         ); // Pass as arg the random reward object from your array of objects
         items.push(newItem);
         newItem.show = true;
@@ -142,7 +146,6 @@ function draw() {
         midfielder[i].count--;
         if (midfielder[i].count <= 0) {
           midfielder.splice(i, 1);
-          console.log(newItem.playerMeet(player));
         }
       }
     }
@@ -159,20 +162,25 @@ function draw() {
         ball.directionX *= -1;
         // Get a random number that is from 0 and to the length -1 of the array of objects
         let randomNumber = Math.floor(Math.random() * rewardObject.length);
-        let newItem = new Items(
-          attacker[i].x,
-          attacker[i].y,
-          rewardObject[randomNumber]
-        ); // Pass as arg the random reward object from your array of objects
-        items.push(newItem);
-        newItem.show = true;
-        newItem.playerMeet(player);
+        newItem = new Items(attacker[i].x, attacker[i].y, rewardObject[2]); // Pass as arg the random reward object from your array of objects
         attacker[i].count--;
+        items.push(newItem);
+        newItem.display();
+        newItem.move();
+        newItem.show = true;
         if (attacker[i].count <= 0) {
           attacker.splice(i, 1);
-          console.log(newItem.playerMeet(player));
         }
       }
+    }
+    if (ball.y > height) {
+      player.life--;
+      ball.x = 0;
+      ball.y = 200;
+      // if (player.life === 0) {
+      //   mode = 0;
+      //   player.life = 5;
+      // }
     }
 
     if (
@@ -180,31 +188,52 @@ function draw() {
       midfielder.length === 0 &&
       attacker.length === 0
     ) {
+      goalpost.display();
       keeper.display();
-    }
+      keeper.move();
+      keeper.boundaries();
+      goalpost.display();
+      if (ball.hitOpponent(goalpost)) console.log("GOAL");
+      if (ball.hitOpponent(keeper)) {
+        ball.directionY *= -1;
+        ball.directionX *= -1;
+        console.log("HIT");
+      }
 
-    if (ball.y > height) {
-      gamePlay = false;
-      ball.x = 0;
-      ball.y = 200;
+      //   ball.x = width / 2;
+      //   ball.y = height / 2;
+      //   ball.move();
+      //   ball.playerMeet(player);
     }
 
     if (
       defender.length === 0 &&
       attacker.length === 0 &&
-      midfielder.length === 0
+      midfielder.length === 0 &&
+      keeperIsNotActive
     ) {
-      youWin = true;
-      gamePlay = false;
+      ball.speedX = 4;
+      ball.x = width / 2;
+      ball.y = height / 2;
+      keeperIsNotActive = false;
     }
   }
+  for (item of items) {
+    item.playerMeet(player);
+  }
 }
+
+//END of DRAW()
+
 function keyPressed() {
+  if (keyCode === 37) {
+    player.moveLeft = true;
+  } else if (keyCode === 39) {
+    player.moveRight = true;
+  }
   if (keyCode === ENTER) {
     mode = 1;
-  } else if (keyCode === 32) {
-    gamePlay = true;
-    youWin = false;
+    reset();
     if (
       defender.length === 0 &&
       attacker.length === 0 &&
@@ -221,4 +250,9 @@ function keyPressed() {
       }
     }
   }
+}
+
+function keyReleased() {
+  player.moveLeft = false;
+  player.moveRight = false;
 }
