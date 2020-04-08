@@ -1,7 +1,7 @@
 class Ball {
   constructor() {
-    this.x = 400; //player.x + player.length / 2;
-    this.y = 0; //player.y - 10;
+    this.x = 0; //player.x + player.length / 2;
+    this.y = 200; //player.y - 10;
     this.r = 30;
     this.speedX = 5;
     this.speedY = 5;
@@ -40,7 +40,6 @@ class Ball {
       //this.start = true;
       this.directionY *= -1;
     }
-    console.log("meee");
   }
   hitOpponent(opponent) {
     if (

@@ -46,4 +46,17 @@ class Items {
       this.ball.length -= 5;
     }
   }
+  playerMeet() {
+    if (
+      this.y < this.player.y &&
+      this.y + this.r > this.player.y &&
+      this.x + this.r > mouseX &&
+      this.x - this.r < mouseX + this.player.length &&
+      this.directionY > 0
+    ) {
+      //this.start = true;
+      console.log("meets");
+      this.executeReward();
+    }
+  }
 }

@@ -16,7 +16,7 @@ class Attacker {
       this.x += this.collision;
       this.collision = 0;
     } else {
-      this.x += random(-2, 2);
+      this.x += random(-1, 1);
     }
 
     if (this.x < 200) {
