@@ -1,3 +1,4 @@
+let mode;
 let player;
 let ball;
 let defender = [];
@@ -35,7 +36,7 @@ function preload() {
   }
 }
 function setup() {
-  console.log(rewardObject[0].img);
+  mode = 0;
   let canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("canvas");
   background(100);
@@ -64,147 +65,144 @@ function draw() {
   // image() game over
   // } else {
   clear();
-  if (startScreen) {
+  if (mode === 0) {
     // Your code for displaying the start screeen
-    // Button: Start => click => startScreen = false
+    background(150);
+    textSize(21); // Button: Start => click => startScreen = false
+    text("Press enter to start", 20, 40);
+  }
+  if (mode === 1) {
+    image(pitchImage, 0, 0, width, height);
+    stroke(3);
+    strokeWeight(3);
+    player.display();
+    if (gamePlay) player.checkMove();
+    if (gamePlay) ball.display();
+    if (gamePlay) goalpost.display();
+    if (gamePlay) keeper.display();
+    if (gamePlay) keeper.move();
+    if (gamePlay) keeper.boundaries();
 
-    return;
-  }
-  image(pitchImage, 0, 0, width, height);
-  stroke(3);
-  strokeWeight(3);
-  player.display();
-  if (gamePlay) player.checkMove();
-  ball.display();
-  goalpost.display();
-  keeper.display();
-  keeper.move();
-  keeper.boundaries();
+    if (gamePlay) ball.move();
+    if (gamePlay) ball.wallMeet();
+    if (gamePlay) ball.playerMeet(player);
+    if (items.length > 0) {
+      items.forEach((item) => item.display());
+      items.forEach((item) => item.move());
+    }
+    for (let i = 0; i < defender.length; i++) {
+      defender[i].display();
+      defender[i].move();
+      for (let def of defender) {
+        if (defender[i].x != def.x) {
+          defender[i].collissions(def);
+        }
+      }
+      if (ball.hitOpponent(defender[i])) {
+        ball.directionY *= -1;
+        ball.directionX *= -1;
+        // Get a random number that is from 0 and to the length -1 of the array of objects
+        let randomNumber = Math.floor(Math.random() * rewardObject.length);
+        let newItem = new Items(
+          defender[i].x,
+          defender[i].y,
+          rewardObject[randomNumber]
+        ); // Pass as arg the random reward object from your array of objects
+        items.push(newItem);
+        newItem.show = true;
+        newItem.playerMeet(player);
+        defender[i].count--;
+        if (defender[i].count <= 0) {
+          defender.splice(i, 1);
+          console.log(newItem.playerMeet(player));
+        }
+      }
+    }
+    for (let i = 0; i < midfielder.length; i++) {
+      midfielder[i].display();
+      midfielder[i].move();
+      for (let mid of midfielder) {
+        if (midfielder[i].x != mid.x) {
+          midfielder[i].collissions(mid);
+        }
+      }
+      if (ball.hitOpponent(midfielder[i])) {
+        ball.directionY *= -1;
+        ball.directionX *= -1;
+        // Get a random number that is from 0 and to the length -1 of the array of objects
+        let randomNumber = Math.floor(Math.random() * rewardObject.length);
+        let newItem = new Items(
+          midfielder[i].x,
+          midfielder[i].y,
+          rewardObject[randomNumber]
+        ); // Pass as arg the random reward object from your array of objects
+        items.push(newItem);
+        newItem.show = true;
+        newItem.playerMeet(player);
+        midfielder[i].count--;
+        if (midfielder[i].count <= 0) {
+          midfielder.splice(i, 1);
+          console.log(newItem.playerMeet(player));
+        }
+      }
+    }
+    for (let i = 0; i < attacker.length; i++) {
+      attacker[i].display();
+      attacker[i].move();
+      for (let att of attacker) {
+        if (attacker[i].x != att.x) {
+          attacker[i].collissions(att);
+        }
+      }
+      if (ball.hitOpponent(attacker[i])) {
+        ball.directionY *= -1;
+        ball.directionX *= -1;
+        // Get a random number that is from 0 and to the length -1 of the array of objects
+        let randomNumber = Math.floor(Math.random() * rewardObject.length);
+        let newItem = new Items(
+          attacker[i].x,
+          attacker[i].y,
+          rewardObject[randomNumber]
+        ); // Pass as arg the random reward object from your array of objects
+        items.push(newItem);
+        newItem.show = true;
+        newItem.playerMeet(player);
+        attacker[i].count--;
+        if (attacker[i].count <= 0) {
+          attacker.splice(i, 1);
+          console.log(newItem.playerMeet(player));
+        }
+      }
+    }
 
-  if (gamePlay) ball.move();
-  if (gamePlay) ball.wallMeet();
-  if (gamePlay) ball.playerMeet(player);
-  if (items.length > 0) {
-    items.forEach((item) => item.display());
-    items.forEach((item) => item.move());
-  }
-  for (let i = 0; i < defender.length; i++) {
-    defender[i].display();
-    defender[i].move();
-    for (let def of defender) {
-      if (defender[i].x != def.x) {
-        defender[i].collissions(def);
-      }
+    if (
+      defender.length === 0 &&
+      midfielder.length === 0 &&
+      attacker.length === 0
+    ) {
+      keeper.display();
     }
-    if (ball.hitOpponent(defender[i])) {
-      ball.directionY *= -1;
-      ball.directionX *= -1;
-      // Get a random number that is from 0 and to the length -1 of the array of objects
-      let randomNumber = Math.floor(Math.random() * rewardObject.length);
-      let newItem = new Items(
-        defender[i].x,
-        defender[i].y,
-        rewardObject[randomNumber],
-        player,
-        ball
-      ); // Pass as arg the random reward object from your array of objects
-      items.push(newItem);
-      newItem.show = true;
-      newItem.playerMeet();
-      defender[i].count--;
-      if (defender[i].count <= 0) {
-        defender.splice(i, 1);
-        console.log(newItem.playerMeet());
-      }
-    }
-  }
-  for (let i = 0; i < midfielder.length; i++) {
-    midfielder[i].display();
-    midfielder[i].move();
-    for (let mid of midfielder) {
-      if (midfielder[i].x != mid.x) {
-        midfielder[i].collissions(mid);
-      }
-    }
-    if (ball.hitOpponent(midfielder[i])) {
-      ball.directionY *= -1;
-      ball.directionX *= -1;
-      // Get a random number that is from 0 and to the length -1 of the array of objects
-      let randomNumber = Math.floor(Math.random() * rewardObject.length);
-      let newItem = new Items(
-        midfielder[i].x,
-        midfielder[i].y,
-        rewardObject[randomNumber],
-        player,
-        ball
-      ); // Pass as arg the random reward object from your array of objects
-      items.push(newItem);
-      newItem.show = true;
-      newItem.playerMeet();
-      midfielder[i].count--;
-      if (midfielder[i].count <= 0) {
-        midfielder.splice(i, 1);
-        console.log(newItem.playerMeet());
-      }
-    }
-  }
-  for (let i = 0; i < attacker.length; i++) {
-    attacker[i].display();
-    attacker[i].move();
-    for (let att of attacker) {
-      if (attacker[i].x != att.x) {
-        attacker[i].collissions(att);
-      }
-    }
-    if (ball.hitOpponent(attacker[i])) {
-      ball.directionY *= -1;
-      ball.directionX *= -1;
-      // Get a random number that is from 0 and to the length -1 of the array of objects
-      let randomNumber = Math.floor(Math.random() * rewardObject.length);
-      let newItem = new Items(
-        attacker[i].x,
-        attacker[i].y,
-        rewardObject[randomNumber],
-        player,
-        ball
-      ); // Pass as arg the random reward object from your array of objects
-      items.push(newItem);
-      newItem.show = true;
-      newItem.playerMeet();
-      attacker[i].count--;
-      if (attacker[i].count <= 0) {
-        attacker.splice(i, 1);
-        console.log(newItem.playerMeet());
-      }
-    }
-  }
 
-  if (
-    defender.length === 0 &&
-    midfielder.length === 0 &&
-    attacker.length === 0
-  ) {
-    keeper.display();
-  }
+    if (ball.y > height) {
+      gamePlay = false;
+      ball.x = 0;
+      ball.y = 200;
+    }
 
-  if (ball.y > height) {
-    gamePlay = false;
-    ball.x = 0;
-    ball.y = 200;
-  }
-
-  if (
-    defender.length === 0 &&
-    attacker.length === 0 &&
-    midfielder.length === 0
-  ) {
-    youWin = true;
-    gamePlay = false;
+    if (
+      defender.length === 0 &&
+      attacker.length === 0 &&
+      midfielder.length === 0
+    ) {
+      youWin = true;
+      gamePlay = false;
+    }
   }
 }
 function keyPressed() {
-  //Start the game
-  if (keyCode === 32) {
+  if (keyCode === ENTER) {
+    mode = 1;
+  } else if (keyCode === 32) {
     gamePlay = true;
     youWin = false;
     if (

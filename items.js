@@ -1,5 +1,5 @@
 class Items {
-  constructor(x, y, rewardObject, player, ball) {
+  constructor(x, y, rewardObject) {
     this.length = 50;
     this.breadth = 50;
     this.x = x;
@@ -9,8 +9,8 @@ class Items {
     this.directionX = 1;
     this.directionY = 1;
     this.show = false;
-    this.player = player;
-    this.ball = ball;
+    // this.player = player;
+    // this.ball = ball;
     // You need to make two variables
     // #1 rewardObject.img
     // #2 rewardObject.reward
@@ -31,30 +31,29 @@ class Items {
 
   // Create a method execute reward
   // This should have if statements, depending on what the reward is (rewardObject.reward)
-  executeReward() {
+  executeReward(player, ball) {
     if (this.reward === "big player") {
-      this.player.length += 5;
+      player.length += 5;
     } else if (this.reward === "slow ball") {
-      this.ball.speedX -= 0.5;
-      this.ball.speedY -= 0.5;
+      ball.speedX -= 0.5;
+      ball.speedY -= 0.5;
     } else if (this.reward === "quick ball") {
-      this.ball.speedX += 0.5;
-      this.ball.speedY += 0.5;
+      ball.speedX += 0.5;
+      ball.speedY += 0.5;
     } else if (this.reward === "small player") {
-      this.player.length -= 5;
+      player.length -= 5;
     } else if (this.reward === "small ball") {
-      this.ball.length -= 5;
+      ball.length -= 5;
     }
   }
-  playerMeet() {
+  playerMeet(player) {
     if (
-      this.y < this.player.y &&
-      this.y + this.r > this.player.y &&
+      this.y < player.y &&
+      this.y + this.r > player.y &&
       this.x + this.r > mouseX &&
-      this.x - this.r < mouseX + this.player.length &&
+      this.x - this.r < mouseX + player.length &&
       this.directionY > 0
     ) {
-      //this.start = true;
       console.log("meets");
       this.executeReward();
     }
