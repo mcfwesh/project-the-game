@@ -3,6 +3,8 @@ let ball;
 let defender = [];
 let midfielder = [];
 let attacker = [];
+let keeper;
+let goalpost;
 let numberofDefenders = 20;
 let defenderRows = 4;
 let midfielderRows = 3;
@@ -49,10 +51,8 @@ function setup() {
   for (let j = 0; j < attackerRows; j++) {
     attacker.push(new Attacker(455 + 300 * j));
   }
-  // for (let j = 0; j < 20; j++) {
-  //   items.push(new Items(50, 50));
-  //   console.log(items);
-  // }
+  keeper = new Keeper();
+  goalpost = new Goalpost();
 }
 
 let startScreen = false; // change to true
@@ -76,6 +76,11 @@ function draw() {
   player.display();
   if (gamePlay) player.checkMove();
   ball.display();
+  goalpost.display();
+  keeper.display();
+  keeper.move();
+  keeper.boundaries();
+
   if (gamePlay) ball.move();
   if (gamePlay) ball.wallMeet();
   if (gamePlay) ball.playerMeet(player);
@@ -172,6 +177,14 @@ function draw() {
         console.log(newItem.playerMeet());
       }
     }
+  }
+
+  if (
+    defender.length === 0 &&
+    midfielder.length === 0 &&
+    attacker.length === 0
+  ) {
+    keeper.display();
   }
 
   if (ball.y > height) {

@@ -30,7 +30,6 @@ class Midfielder {
       if (this.x + this.length > other.x + other.length) {
         this.collision = 3;
       } else {
-        console.log("Markus");
         this.collision = -3;
       }
     }
