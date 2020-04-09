@@ -1,8 +1,7 @@
 let clockFont;
 let timerID = document.getElementById("timer");
-//console.log(timerID);
 let mode;
-let timer = 10;
+let timer = 100;
 let player;
 let ball;
 let defender = [];
@@ -93,13 +92,6 @@ function setup() {
 
 //START of DRAW()
 function draw() {
-  //frameRate(60);
-  //if(level === 0) {
-  //  image() start
-  //} else if (level < 0) {
-  // image() game over
-  // } else {
-  //console.log(frameCount);
   clear();
   if (mode === 0) {
     // Your code for displaying the start screeen
@@ -109,6 +101,8 @@ function draw() {
     textSize(100);
     fill(255);
     text("FOOTBREAK", 550, 200);
+    textSize(50);
+    text("PRESS ENTER TO BEGIN", 550, 400);
     return;
   } else if (mode === 1) {
     // crowdSound.play();
@@ -138,7 +132,7 @@ function draw() {
       defender[i].move();
       for (let def of defender) {
         if (defender[i].x != def.x) {
-          if (frameCount % 10 === 0) defender[i].collissions(def);
+          defender[i].collissions(def);
         }
       }
       if (ball.hitOpponent(defender[i])) {
@@ -158,7 +152,6 @@ function draw() {
         if (defender[i].count <= 0) {
           defender.splice(i, 1);
           hitSound.play();
-          //console.log(newItem.playerMeet(player));
         }
       }
     }
@@ -238,6 +231,8 @@ function draw() {
       keeper.move();
       keeper.boundaries();
       goalpost.display();
+      ball.speedY = 15;
+      ball.speedX = 5;
       if (ball.scoreGoal()) {
         goalSound.play();
         mode = 3;
@@ -246,7 +241,6 @@ function draw() {
         ball.directionY *= -1;
         ball.directionX *= -1;
         hitSound.play();
-        //console.log("HIT");
       }
 
       //   ball.x =  width / 2;
@@ -269,15 +263,27 @@ function draw() {
     for (item of items) {
       item.playerMeet(player);
     }
+    textFont(clockFont);
+    fill(255);
+    textSize(30);
+    text(`TIMER: 0:${timer}`, 100, 20);
+    textSize(30);
+    text(`LIVES: 0:${player.life}`, 1000, 760);
+    textSize(30);
+    text(`TIMER: 0:${timer}`, 100, 20);
   }
   //Finished sketch
   else if (mode === 2) {
+    gameoverSound.play();
     background(gameoverImage);
     crowdSound.stop();
     backgroundSound.stop();
-    gameoverSound.play();
-    textSize(21); // Button: Start => click => startScreen = false
-    text("Game Over", 20, 40);
+    textAlign(CENTER, TOP);
+    textSize(100);
+    fill(255);
+    text("GAME OVER", 550, 200);
+    textSize(50);
+    text("PRESS SPACEBAR TO CONTINUE", 550, 400);
   }
   if (mode === 3) {
     background(winImage);
@@ -286,10 +292,9 @@ function draw() {
     text("NICE JOB", 20, 40);
   }
   if (ball.y > height) {
-    ball.x = width / 2 - 100; //player.x + player.length / 2;
+    ball.x = width / 2 - 100;
     ball.y = height - 250;
     player.life--;
-    setInterval(ball.move, 10000);
     if (player.life === 0) {
       mode = 2;
       player.life = 5;
@@ -298,15 +303,12 @@ function draw() {
 
   //Timer
   if (frameCount % 60 === 0 && timer > 0) {
-    //console.log(timer--);
+    timer--;
 
     if (timer === 0) {
       mode = 2;
     }
   }
-  textFont(clockFont);
-  fill(255);
-  text(timer, 0, 30);
 }
 
 //END of DRAW()

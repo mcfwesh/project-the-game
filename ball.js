@@ -57,8 +57,8 @@ class Ball {
     if (
       this.y - this.r < 0 &&
       this.y + this.r > 0 &&
-      this.x + this.r > width / 2 - 80 &&
-      this.x - this.r < width / 2 - 80 + 180
+      this.x + this.r > width / 2 - 100 &&
+      this.x - this.r < width / 2 - 150
     ) {
       return true;
     } else return false;

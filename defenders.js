@@ -5,8 +5,9 @@ class Defender {
     this.length = 120;
     this.breadth = 150;
     this.collision = 0;
-    this.defenderImage = loadImage("assets/defender.png");
+    this.defenderImage = loadImage("assets/defender2.png");
     this.count = 1;
+    this.direction = 1;
   }
   display() {
     image(this.defenderImage, this.x, this.y, this.length, this.breadth);
@@ -16,13 +17,16 @@ class Defender {
       this.x += this.collision;
       this.collision = 0;
     } else {
-      this.x += random(-1, 1);
+      this.x += 2 * this.direction;
+      // this.x += random(-1, 1);
     }
 
-    if (this.x < 400) {
+    if (this.x < 200) {
       this.x += 2;
-    } else if (this.x > width - 400) {
+      this.direction = 1;
+    } else if (this.x > width - 200) {
       this.x -= 2;
+      this.direction = -1;
     }
   }
   collissions(other) {

@@ -5,7 +5,7 @@ class Attacker {
     this.length = 120;
     this.breadth = 150;
     this.collision = 0;
-    this.attackerImage = loadImage("assets/attacker.png");
+    this.attackerImage = loadImage("assets/attacker2.png");
     this.count = 1;
     this.direction = 1;
   }

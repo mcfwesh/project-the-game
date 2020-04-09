@@ -8,7 +8,7 @@ class Player {
     this.health = 3;
     this.moveRight = false;
     this.moveLeft = false;
-    this.life = 100;
+    this.life = 1;
     //console.log(this.life);
   }
   display() {

@@ -4,8 +4,8 @@ class Items {
     this.breadth = 50;
     this.x = x;
     this.y = y;
-    this.speedX = 3;
-    this.speedY = 3;
+    this.speedX = 5;
+    this.speedY = 5;
     this.directionX = 1;
     this.directionY = 1;
     this.show = false;
@@ -34,38 +34,26 @@ class Items {
   executeReward(player, ball) {
     if (this.reward === "big player") {
       let index = items.indexOf(this);
-      //console.log(index);
       items.splice(index, 1);
-      player.length += 1;
-      // //console.log("bigplayer");
+      player.length > 250 ? (player.length += 2) : (player.length = 250);
     } else if (this.reward === "slow ball") {
       let index = items.indexOf(this);
-      //console.log(index);
       items.splice(index, 1);
       ball.speedX -= 1;
       ball.speedY -= 1;
-      // //console.log("slowball");
     } else if (this.reward === "quick ball") {
       let index = items.indexOf(this);
-      //console.log(index);
       items.splice(index, 1);
       ball.speedX += 0.5;
       ball.speedY += 0.5;
-      // //console.log("quickball");
     } else if (this.reward === "small player") {
       let index = items.indexOf(this);
-      //console.log(index);
       items.splice(index, 1);
       player.length > 30 ? (player.length -= 5) : (ball.r = 30);
-
-      // //console.log("small player");
     } else if (this.reward === "small ball") {
       let index = items.indexOf(this);
-      //console.log(index);
       items.splice(index, 1);
       ball.r > 10 ? (ball.r -= 1) : (ball.r = 10);
-
-      //console.log("smallball");
     }
   }
   playerMeet(player) {
