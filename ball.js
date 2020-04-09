@@ -17,7 +17,7 @@ class Ball {
   move() {
     this.x += this.speedX * this.directionX;
     this.y += this.speedY * this.directionY;
-    console.log(this.x);
+    //console.log(this.x);
   }
   wallMeet() {
     if (this.x - this.r <= 0 && this.directionX < 0) {
@@ -40,6 +40,7 @@ class Ball {
     ) {
       //this.start = true;
       this.directionY *= -1;
+      kickSound.play();
     }
   }
   hitOpponent(opponent) {

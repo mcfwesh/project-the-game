@@ -34,38 +34,38 @@ class Items {
   executeReward(player, ball) {
     if (this.reward === "big player") {
       let index = items.indexOf(this);
-      console.log(index);
+      //console.log(index);
       items.splice(index, 1);
       player.length += 1;
-      // console.log("bigplayer");
+      // //console.log("bigplayer");
     } else if (this.reward === "slow ball") {
       let index = items.indexOf(this);
-      console.log(index);
+      //console.log(index);
       items.splice(index, 1);
       ball.speedX -= 1;
       ball.speedY -= 1;
-      // console.log("slowball");
+      // //console.log("slowball");
     } else if (this.reward === "quick ball") {
       let index = items.indexOf(this);
-      console.log(index);
+      //console.log(index);
       items.splice(index, 1);
       ball.speedX += 0.5;
       ball.speedY += 0.5;
-      // console.log("quickball");
+      // //console.log("quickball");
     } else if (this.reward === "small player") {
       let index = items.indexOf(this);
-      console.log(index);
+      //console.log(index);
       items.splice(index, 1);
       player.length > 30 ? (player.length -= 5) : (ball.r = 30);
 
-      // console.log("small player");
+      // //console.log("small player");
     } else if (this.reward === "small ball") {
       let index = items.indexOf(this);
-      console.log(index);
+      //console.log(index);
       items.splice(index, 1);
       ball.r > 10 ? (ball.r -= 1) : (ball.r = 10);
 
-      console.log("smallball");
+      //console.log("smallball");
     }
   }
   playerMeet(player) {

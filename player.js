@@ -9,7 +9,7 @@ class Player {
     this.moveRight = false;
     this.moveLeft = false;
     this.life = 100;
-    console.log(this.life);
+    //console.log(this.life);
   }
   display() {
     rect(this.x, this.y, this.length, this.breadth);

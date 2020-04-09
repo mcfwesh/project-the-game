@@ -1,8 +1,8 @@
 let clockFont;
 let timerID = document.getElementById("timer");
-console.log(timerID);
+//console.log(timerID);
 let mode;
-let timer = 30;
+let timer = 10;
 let player;
 let ball;
 let defender = [];
@@ -19,6 +19,13 @@ let pitchImage;
 let menuImage;
 let winImage;
 let gameoverImage;
+let kickSound;
+let crowdSound;
+let backgroundSound;
+let gameoverSound;
+let hitSound;
+let itemSound;
+let goalSound;
 let bootImage = "assets/boot.png";
 let waterImage = "assets/water.png";
 let redcardImage = "assets/red-card.png";
@@ -41,14 +48,22 @@ function preload() {
   menuImage = loadImage("assets/menu.png");
   winImage = loadImage("assets/winscreen.png");
   gameoverImage = loadImage("assets/gameover.png");
+  kickSound = loadSound("assets/kick.wav");
+  crowdSound = loadSound("assets/sample.mp3");
+  backgroundSound = loadSound("assets/background.mp3");
+  gameoverSound = loadSound("assets/gameover.wav");
+  hitSound = loadSound("assets/hit.wav");
+  itemSound = loadSound("assets/items.wav");
+  goalSound = loadSound("assets/goal.mp3");
+  clockFont = loadFont("assets/digital-7 (mono italic).ttf");
+
   for (let i = 0; i < rewardObject.length; i++) {
     rewardObject[i].img = loadImage(rewardObject[i].img);
   }
-
-  clockFont = loadFont("assets/digital-7 (mono italic).ttf");
 }
 function setup() {
   mode = 0;
+  backgroundSound.playMode("restart");
   let canvas = createCanvas(1100, 780);
   canvas.parent("canvas");
   player = new Player();
@@ -61,7 +76,7 @@ function setup() {
     midfielder.push(new Midfielder(225 + 300 * j));
   }
   for (let j = 0; j < attackerRows; j++) {
-    attacker.push(new Attacker(255 + 300 * j));
+    attacker.push(new Attacker(225 + 300 * j));
     // let randomNumber = Math.floor(Math.random() * rewardObject.length);
     // newItem = new Items(
     //   attacker[j].x,
@@ -78,23 +93,26 @@ function setup() {
 
 //START of DRAW()
 function draw() {
-  //frameRate(1);
+  //frameRate(60);
   //if(level === 0) {
   //  image() start
   //} else if (level < 0) {
   // image() game over
   // } else {
+  //console.log(frameCount);
   clear();
   if (mode === 0) {
     // Your code for displaying the start screeen
+    backgroundSound.play();
     background(menuImage);
     textAlign(CENTER, TOP);
     textSize(100);
     fill(255);
     text("FOOTBREAK", 550, 200);
     return;
-  }
-  if (mode === 1) {
+  } else if (mode === 1) {
+    // crowdSound.play();
+    backgroundSound.stop();
     image(pitchImage, 0, 0, width, height);
     stroke(3);
     strokeWeight(3);
@@ -109,6 +127,7 @@ function draw() {
 
     ball.move();
     ball.wallMeet();
+
     ball.playerMeet(player);
     if (items.length > 0) {
       items.forEach((item) => item.display());
@@ -119,7 +138,7 @@ function draw() {
       defender[i].move();
       for (let def of defender) {
         if (defender[i].x != def.x) {
-          defender[i].collissions(def);
+          if (frameCount % 10 === 0) defender[i].collissions(def);
         }
       }
       if (ball.hitOpponent(defender[i])) {
@@ -138,7 +157,8 @@ function draw() {
         defender[i].count--;
         if (defender[i].count <= 0) {
           defender.splice(i, 1);
-          console.log(newItem.playerMeet(player));
+          hitSound.play();
+          //console.log(newItem.playerMeet(player));
         }
       }
     }
@@ -147,7 +167,7 @@ function draw() {
       midfielder[i].move();
       for (let mid of midfielder) {
         if (midfielder[i].x != mid.x) {
-          midfielder[i].collissions(mid);
+          if (frameCount % 10 === 0) midfielder[i].collissions(mid);
         }
       }
       if (ball.hitOpponent(midfielder[i])) {
@@ -166,17 +186,26 @@ function draw() {
         midfielder[i].count--;
         if (midfielder[i].count <= 0) {
           midfielder.splice(i, 1);
+          hitSound.play();
         }
       }
     }
     for (let i = 0; i < attacker.length; i++) {
       attacker[i].display();
       attacker[i].move();
-      for (let att of attacker) {
-        if (attacker[i].x != att.x) {
-          attacker[i].collissions(att);
+
+      // optional
+      attacker.forEach((a) => {
+        if (attacker[i].x != a.x) {
+          if (frameCount % 10 === 0) attacker[i].collissions(a);
         }
-      }
+      });
+
+      /* for (let att of attacker) {
+        if (attacker[i].x != att.x) {
+          if (frameCount % 10 === 0) attacker[i].collissions(att);
+        }
+      } */
       if (ball.hitOpponent(attacker[i])) {
         ball.directionY *= -1;
         ball.directionX *= -1;
@@ -194,6 +223,7 @@ function draw() {
         newItem.show = true;
         if (attacker[i].count <= 0) {
           attacker.splice(i, 1);
+          hitSound.play();
         }
       }
     }
@@ -209,12 +239,14 @@ function draw() {
       keeper.boundaries();
       goalpost.display();
       if (ball.scoreGoal()) {
+        goalSound.play();
         mode = 3;
       }
       if (ball.hitOpponent(keeper)) {
         ball.directionY *= -1;
         ball.directionX *= -1;
-        console.log("HIT");
+        hitSound.play();
+        //console.log("HIT");
       }
 
       //   ball.x =  width / 2;
@@ -239,6 +271,20 @@ function draw() {
     }
   }
   //Finished sketch
+  else if (mode === 2) {
+    background(gameoverImage);
+    crowdSound.stop();
+    backgroundSound.stop();
+    gameoverSound.play();
+    textSize(21); // Button: Start => click => startScreen = false
+    text("Game Over", 20, 40);
+  }
+  if (mode === 3) {
+    background(winImage);
+    crowdSound.stop();
+    textSize(21); // Button: Start => click => startScreen = false
+    text("NICE JOB", 20, 40);
+  }
   if (ball.y > height) {
     ball.x = width / 2 - 100; //player.x + player.length / 2;
     ball.y = height - 250;
@@ -252,22 +298,11 @@ function draw() {
 
   //Timer
   if (frameCount % 60 === 0 && timer > 0) {
-    console.log(timer--);
+    //console.log(timer--);
 
     if (timer === 0) {
       mode = 2;
     }
-  }
-
-  if (mode === 2) {
-    background(gameoverImage);
-    textSize(21); // Button: Start => click => startScreen = false
-    text("Game Over", 20, 40);
-  }
-  if (mode === 3) {
-    background(winImage);
-    textSize(21); // Button: Start => click => startScreen = false
-    text("NICE JOB", 20, 40);
   }
   textFont(clockFont);
   fill(255);

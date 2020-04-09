@@ -32,10 +32,8 @@ class Attacker {
   collissions(other) {
     if (this.x + this.length > other.x && this.x < other.x + other.length) {
       if (this.x + this.length > other.x + other.length) {
-        // this.collision = 3;
         this.direction = 1;
       } else {
-        // this.collision = -3;
         this.direction = -1;
       }
     }
