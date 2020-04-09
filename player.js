@@ -8,7 +8,8 @@ class Player {
     this.health = 3;
     this.moveRight = false;
     this.moveLeft = false;
-    this.life = 1;
+    this.life = 3;
+    this.score = 0;
     //console.log(this.life);
   }
   display() {
@@ -26,9 +27,9 @@ class Player {
   }
   checkMove() {
     if (this.moveLeft) {
-      this.move(-10);
+      this.move(-20);
     } else if (this.moveRight) {
-      this.move(10);
+      this.move(20);
     }
     if (this.x <= 0) {
       this.x = 0;

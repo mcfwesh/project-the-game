@@ -35,25 +35,35 @@ class Items {
     if (this.reward === "big player") {
       let index = items.indexOf(this);
       items.splice(index, 1);
+      player.score += 5;
       player.length > 250 ? (player.length += 2) : (player.length = 250);
+      itemSound.play();
     } else if (this.reward === "slow ball") {
       let index = items.indexOf(this);
       items.splice(index, 1);
       ball.speedX -= 1;
       ball.speedY -= 1;
+      player.score += 5;
+      itemSound.play();
     } else if (this.reward === "quick ball") {
       let index = items.indexOf(this);
       items.splice(index, 1);
       ball.speedX += 0.5;
       ball.speedY += 0.5;
+      player.score > 0 ? player.score-- : (player.score = 0);
+      itemSound.play();
     } else if (this.reward === "small player") {
       let index = items.indexOf(this);
       items.splice(index, 1);
       player.length > 30 ? (player.length -= 5) : (ball.r = 30);
+      player.score > 0 ? player.score-- : (player.score = 0);
+      itemSound.play();
     } else if (this.reward === "small ball") {
       let index = items.indexOf(this);
       items.splice(index, 1);
       ball.r > 10 ? (ball.r -= 1) : (ball.r = 10);
+      player.score > 0 ? player.score-- : (player.score = 0);
+      itemSound.play();
     }
   }
   playerMeet(player) {

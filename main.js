@@ -2,6 +2,8 @@ let clockFont;
 let timerID = document.getElementById("timer");
 let mode;
 let timer = 100;
+let highscore;
+let score;
 let player;
 let ball;
 let defender = [];
@@ -37,10 +39,9 @@ let rewardObject = [
   { img: yellowcardImage, reward: "quick ball" },
   { img: medalImage, reward: "big player" },
 ];
-
 let newItem;
-
 let keeperIsNotActive = true;
+let cursiveFont;
 
 function preload() {
   pitchImage = loadImage("assets/half-rotate.png");
@@ -50,11 +51,12 @@ function preload() {
   kickSound = loadSound("assets/kick.wav");
   crowdSound = loadSound("assets/sample.mp3");
   backgroundSound = loadSound("assets/background.mp3");
-  gameoverSound = loadSound("assets/gameover.wav");
+  gameoverSound = loadSound("assets/goal.mp3");
   hitSound = loadSound("assets/hit.wav");
   itemSound = loadSound("assets/items.wav");
   goalSound = loadSound("assets/goal.mp3");
   clockFont = loadFont("assets/digital-7 (mono italic).ttf");
+  cursiveFont = loadFont("assets/cursive.otf");
 
   for (let i = 0; i < rewardObject.length; i++) {
     rewardObject[i].img = loadImage(rewardObject[i].img);
@@ -76,36 +78,28 @@ function setup() {
   }
   for (let j = 0; j < attackerRows; j++) {
     attacker.push(new Attacker(225 + 300 * j));
-    // let randomNumber = Math.floor(Math.random() * rewardObject.length);
-    // newItem = new Items(
-    //   attacker[j].x,
-    //   attacker[j].y,
-    //   rewardObject[randomNumber]
-    // );
   }
   goalpost = new Goalpost();
   keeper = new Keeper();
   noLoop();
 }
 
-// let startScreen = false; // change to true
-
 //START of DRAW()
 function draw() {
   clear();
   if (mode === 0) {
-    // Your code for displaying the start screeen
     backgroundSound.play();
     background(menuImage);
     textAlign(CENTER, TOP);
     textSize(100);
     fill(255);
+    textFont(cursiveFont);
     text("FOOTBREAK", 550, 200);
     textSize(50);
     text("PRESS ENTER TO BEGIN", 550, 400);
     return;
   } else if (mode === 1) {
-    // crowdSound.play();
+    crowdSound.play();
     backgroundSound.stop();
     image(pitchImage, 0, 0, width, height);
     stroke(3);
@@ -140,11 +134,7 @@ function draw() {
         ball.directionX *= -1;
         // Get a random number that is from 0 and to the length -1 of the array of objects
         let randomNumber = Math.floor(Math.random() * rewardObject.length);
-        let newItem = new Items(
-          defender[i].x,
-          defender[i].y,
-          rewardObject[randomNumber]
-        ); // Pass as arg the random reward object from your array of objects
+        let newItem = new Items(defender[i].x, defender[i].y, rewardObject[2]); // Pass as arg the random reward object from your array of objects
         items.push(newItem);
         newItem.show = true;
         newItem.playerMeet(player);
@@ -171,7 +161,7 @@ function draw() {
         let newItem = new Items(
           midfielder[i].x,
           midfielder[i].y,
-          rewardObject[randomNumber]
+          rewardObject[2]
         ); // Pass as arg the random reward object from your array of objects
         items.push(newItem);
         newItem.show = true;
@@ -204,11 +194,7 @@ function draw() {
         ball.directionX *= -1;
         // Get a random number that is from 0 and to the length -1 of the array of objects
         let randomNumber = Math.floor(Math.random() * rewardObject.length);
-        newItem = new Items(
-          attacker[i].x,
-          attacker[i].y,
-          rewardObject[randomNumber]
-        ); // Pass as arg the random reward object from your array of objects
+        newItem = new Items(attacker[i].x, attacker[i].y, rewardObject[2]); // Pass as arg the random reward object from your array of objects
         attacker[i].count--;
         items.push(newItem);
         newItem.display();
@@ -233,7 +219,7 @@ function draw() {
       goalpost.display();
       ball.speedY = 15;
       ball.speedX = 5;
-      if (ball.scoreGoal()) {
+      if (ball.hitOpponent(goalpost)) {
         goalSound.play();
         mode = 3;
       }
@@ -268,13 +254,12 @@ function draw() {
     textSize(30);
     text(`TIMER: 0:${timer}`, 100, 20);
     textSize(30);
-    text(`LIVES: 0:${player.life}`, 1000, 760);
+    text(`LIVES:${player.life}`, 1000, 20);
     textSize(30);
-    text(`TIMER: 0:${timer}`, 100, 20);
+    text(`SCORE: 0${player.score}`, 500, 20);
   }
   //Finished sketch
-  else if (mode === 2) {
-    gameoverSound.play();
+  if (mode === 2) {
     background(gameoverImage);
     crowdSound.stop();
     backgroundSound.stop();
@@ -284,12 +269,18 @@ function draw() {
     text("GAME OVER", 550, 200);
     textSize(50);
     text("PRESS SPACEBAR TO CONTINUE", 550, 400);
+    textSize(20);
+    text(`FINAL SCORE:${player.score}`);
   }
   if (mode === 3) {
     background(winImage);
     crowdSound.stop();
-    textSize(21); // Button: Start => click => startScreen = false
-    text("NICE JOB", 20, 40);
+    textAlign(CENTER, TOP);
+    textSize(100);
+    fill(255);
+    text("GOOD JOB!", 550, 200);
+    textSize(50);
+    text("PRESS SPACEBAR TO CONTINUE", 550, 400);
   }
   if (ball.y > height) {
     ball.x = width / 2 - 100;
@@ -347,3 +338,14 @@ function keyReleased() {
   player.moveLeft = false;
   player.moveRight = false;
 }
+
+// var score = player.score;
+// var highscore = localStorage.getItem("highscore");
+
+// if (highscore !== null) {
+//   if (score > highscore) {
+//     localStorage.setItem("highscore", score);
+//   }
+// } else {
+//   localStorage.setItem("highscore", score);
+// }
