@@ -1,6 +1,6 @@
 class Player {
   constructor() {
-    this.length = 100;
+    this.length = 150;
     this.breadth = 30;
     this.x = (width - this.length) / 2;
     this.y = height - 120;
@@ -8,7 +8,7 @@ class Player {
     this.health = 3;
     this.moveRight = false;
     this.moveLeft = false;
-    this.life = 5;
+    this.life = 100;
     console.log(this.life);
   }
   display() {
@@ -39,7 +39,7 @@ class Player {
 }
 // this.x
 // lefts= this.x or player.x
-// right= this.x+this.width
+// right= this.x+this. width
 // top=thix.y
-// bottom= this.y +this.height
+// bottom= this.y +this. height
 // let xCollison=ball.leftside>playerleft && ball.leftside<playerright

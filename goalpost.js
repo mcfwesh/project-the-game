@@ -2,7 +2,7 @@ class Goalpost {
   constructor() {
     this.x = width / 2 - 100;
     this.y = 0;
-    this.speedX = 2;
+    this.speesdX = 2;
     this.directionX = 1;
     this.length = 200;
     this.breadth = 50;

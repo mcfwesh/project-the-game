@@ -7,6 +7,7 @@ class Attacker {
     this.collision = 0;
     this.attackerImage = loadImage("assets/attacker.png");
     this.count = 1;
+    this.direction = 1;
   }
   display() {
     image(this.attackerImage, this.x, this.y, this.length, this.breadth);
@@ -16,22 +17,26 @@ class Attacker {
       this.x += this.collision;
       this.collision = 0;
     } else {
-      this.x += random(-1, 1);
+      this.x += 2 * this.direction;
+      // this.x += random(-1, 1);
     }
 
     if (this.x < 200) {
       this.x += 2;
+      this.direction = 1;
     } else if (this.x > width - 200) {
       this.x -= 2;
+      this.direction = -1;
     }
   }
   collissions(other) {
     if (this.x + this.length > other.x && this.x < other.x + other.length) {
       if (this.x + this.length > other.x + other.length) {
-        this.collision = 3;
+        // this.collision = 3;
+        this.direction = 1;
       } else {
-        console.log("Markus");
-        this.collision = -3;
+        // this.collision = -3;
+        this.direction = -1;
       }
     }
   }
