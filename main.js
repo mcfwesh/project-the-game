@@ -322,6 +322,8 @@ function draw() {
     text("GOOD JOB!", 550, 200);
     textSize(50);
     text("PRESS SPACEBAR TO CONTINUE", 550, 600);
+    textSize(30);
+    text(`FINAL SCORE:${player.score}`, 550, 300);
   }
   if (ball.y > height) {
     ball.x = 0;

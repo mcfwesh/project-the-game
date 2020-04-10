@@ -3,8 +3,8 @@ class Ball {
     this.x = random(0, width); //width / 2 - 100;
     this.y = height - 250;
     this.r = 30;
-    this.speedX = 8;
-    this.speedY = 8;
+    this.speedX = 5;
+    this.speedY = 5;
     this.directionX = 1;
     this.directionY = 1;
     this.ballImage = loadImage("assets/soccer-ball-transparent.png");
