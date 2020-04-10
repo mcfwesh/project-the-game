@@ -1,12 +1,13 @@
 class Midfielder {
   constructor(x) {
     this.x = x;
-    this.y = 200;
+    this.y = 180;
     this.length = 120;
     this.breadth = 150;
     this.collision = 0;
     this.midfielderImage = loadImage("assets/midfielder2.png");
-    this.count = 1;
+    this.count = 2;
+    this.direction = 1;
   }
   display() {
     image(this.midfielderImage, this.x, this.y, this.length, this.breadth);
@@ -16,13 +17,16 @@ class Midfielder {
       this.x += this.collision;
       this.collision = 0;
     } else {
-      this.x += random(-1, 1);
+      this.x += 2 * this.direction;
+      // this.x += random(-1, 1);
     }
 
     if (this.x < 200) {
       this.x += 2;
+      this.direction = 1;
     } else if (this.x > width - 200) {
       this.x -= 2;
+      this.direction = -1;
     }
   }
   collissions(other) {

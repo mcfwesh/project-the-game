@@ -1,12 +1,12 @@
 class Defender {
   constructor(x) {
     this.x = x;
-    this.y = 50;
+    this.y = 20;
     this.length = 120;
     this.breadth = 150;
     this.collision = 0;
     this.defenderImage = loadImage("assets/defender2.png");
-    this.count = 1;
+    this.count = 3;
     this.direction = 1;
   }
   display() {

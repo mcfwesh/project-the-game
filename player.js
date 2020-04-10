@@ -8,11 +8,13 @@ class Player {
     this.health = 3;
     this.moveRight = false;
     this.moveLeft = false;
-    this.life = 3;
+    this.life = 10;
     this.score = 0;
     //console.log(this.life);
   }
   display() {
+    fill(212, 175, 55);
+    noStroke();
     rect(this.x, this.y, this.length, this.breadth);
     image(
       this.playerImage,

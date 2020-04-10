@@ -1,23 +1,25 @@
 class Ball {
   constructor() {
-    this.x = width / 2 - 100; //player.x + player.length / 2;
-    this.y = height - 250; //player.y - 10;
+    this.x = random(0, width); //width / 2 - 100;
+    this.y = height - 250;
     this.r = 30;
     this.speedX = 8;
     this.speedY = 8;
     this.directionX = 1;
     this.directionY = 1;
     this.ballImage = loadImage("assets/soccer-ball-transparent.png");
-    //this.start = false;
+    this.start = false;
   }
   display() {
     image(this.ballImage, this.x, this.y, ball.r, ball.r);
   }
 
   move() {
-    this.x += this.speedX * this.directionX;
-    this.y += this.speedY * this.directionY;
-    //console.log(this.x);
+    if (this.start === true) {
+      this.x += this.speedX * this.directionX;
+      this.y += this.speedY * this.directionY;
+      //console.log(this.x);
+    }
   }
   wallMeet() {
     if (this.x - this.r <= 0 && this.directionX < 0) {

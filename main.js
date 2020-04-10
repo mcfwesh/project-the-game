@@ -1,9 +1,7 @@
 let clockFont;
 let timerID = document.getElementById("timer");
 let mode;
-let timer = 100;
-let highscore;
-let score;
+let timer = 60;
 let player;
 let ball;
 let defender = [];
@@ -12,9 +10,9 @@ let attacker = [];
 let keeper;
 let goalpost;
 let numberofDefenders = 20;
-let defenderRows = 4;
-let midfielderRows = 3;
-let attackerRows = 3;
+let defenderRows = 5;
+let midfielderRows = 5;
+let attackerRows = 5;
 let items = [];
 let pitchImage;
 let menuImage;
@@ -42,7 +40,9 @@ let rewardObject = [
 let newItem;
 let keeperIsNotActive = true;
 let cursiveFont;
+let highscoreSet = true;
 
+var highscore = window.localStorage.getItem("highscore");
 function preload() {
   pitchImage = loadImage("assets/half-rotate.png");
   menuImage = loadImage("assets/menu.png");
@@ -52,7 +52,7 @@ function preload() {
   crowdSound = loadSound("assets/sample.mp3");
   backgroundSound = loadSound("assets/background.mp3");
   gameoverSound = loadSound("assets/goal.mp3");
-  hitSound = loadSound("assets/hit.wav");
+  hitSound = loadSound("assets/hit.mp3");
   itemSound = loadSound("assets/items.wav");
   goalSound = loadSound("assets/goal.mp3");
   clockFont = loadFont("assets/digital-7 (mono italic).ttf");
@@ -89,17 +89,17 @@ function draw() {
   clear();
   if (mode === 0) {
     backgroundSound.play();
+
     background(menuImage);
     textAlign(CENTER, TOP);
     textSize(100);
     fill(255);
     textFont(cursiveFont);
-    text("FOOTBREAK", 550, 200);
+    text("HEADBREAK", 550, 200);
     textSize(50);
     text("PRESS ENTER TO BEGIN", 550, 400);
     return;
   } else if (mode === 1) {
-    crowdSound.play();
     backgroundSound.stop();
     image(pitchImage, 0, 0, width, height);
     stroke(3);
@@ -134,7 +134,11 @@ function draw() {
         ball.directionX *= -1;
         // Get a random number that is from 0 and to the length -1 of the array of objects
         let randomNumber = Math.floor(Math.random() * rewardObject.length);
-        let newItem = new Items(defender[i].x, defender[i].y, rewardObject[2]); // Pass as arg the random reward object from your array of objects
+        let newItem = new Items(
+          defender[i].x,
+          defender[i].y,
+          rewardObject[randomNumber]
+        ); // Pass as arg the random reward object from your array of objects
         items.push(newItem);
         newItem.show = true;
         newItem.playerMeet(player);
@@ -161,7 +165,7 @@ function draw() {
         let newItem = new Items(
           midfielder[i].x,
           midfielder[i].y,
-          rewardObject[2]
+          rewardObject[randomNumber]
         ); // Pass as arg the random reward object from your array of objects
         items.push(newItem);
         newItem.show = true;
@@ -194,7 +198,11 @@ function draw() {
         ball.directionX *= -1;
         // Get a random number that is from 0 and to the length -1 of the array of objects
         let randomNumber = Math.floor(Math.random() * rewardObject.length);
-        newItem = new Items(attacker[i].x, attacker[i].y, rewardObject[2]); // Pass as arg the random reward object from your array of objects
+        newItem = new Items(
+          attacker[i].x,
+          attacker[i].y,
+          rewardObject[randomNumber]
+        ); // Pass as arg the random reward object from your array of objects
         attacker[i].count--;
         items.push(newItem);
         newItem.display();
@@ -217,10 +225,12 @@ function draw() {
       keeper.move();
       keeper.boundaries();
       goalpost.display();
-      ball.speedY = 15;
-      ball.speedX = 5;
+      ball.start = true;
+      // ball.speedY = 10;
+      // ball.speedX = 5;
       if (ball.hitOpponent(goalpost)) {
         goalSound.play();
+        player.score += 20;
         mode = 3;
       }
       if (ball.hitOpponent(keeper)) {
@@ -253,13 +263,23 @@ function draw() {
     fill(255);
     textSize(30);
     text(`TIMER: 0:${timer}`, 100, 20);
-    textSize(30);
     text(`LIVES:${player.life}`, 1000, 20);
-    textSize(30);
-    text(`SCORE: 0${player.score}`, 500, 20);
+    text(`SCORE: 0${player.score}`, 300, 20);
+    text(`HI-SCORE: 0${highscore}`, 800, 20);
   }
   //Finished sketch
   if (mode === 2) {
+    if (highscoreSet) {
+      window.localStorage.setItem("highscore", 0);
+      if (highscore !== 0) {
+        if (player.score > highscore) {
+          window.localStorage.setItem("highscore", player.score);
+        }
+      } else {
+        window.localStorage.setItem("highscore", player.score);
+      }
+      highscoreSet = false;
+    }
     background(gameoverImage);
     crowdSound.stop();
     backgroundSound.stop();
@@ -267,12 +287,23 @@ function draw() {
     textSize(100);
     fill(255);
     text("GAME OVER", 550, 200);
+    textSize(30);
+    text(`FINAL SCORE:${player.score}`, 550, 300);
     textSize(50);
-    text("PRESS SPACEBAR TO CONTINUE", 550, 400);
-    textSize(20);
-    text(`FINAL SCORE:${player.score}`);
+    text("PRESS SPACEBAR TO CONTINUE", 550, 600);
   }
   if (mode === 3) {
+    if (highscoreSet) {
+      window.localStorage.setItem("highscore", 0);
+      if (highscore !== 0) {
+        if (player.score > highscore) {
+          window.localStorage.setItem("highscore", player.score);
+        }
+      } else {
+        window.localStorage.setItem("highscore", player.score);
+      }
+      highscoreSet = false;
+    }
     background(winImage);
     crowdSound.stop();
     textAlign(CENTER, TOP);
@@ -280,11 +311,12 @@ function draw() {
     fill(255);
     text("GOOD JOB!", 550, 200);
     textSize(50);
-    text("PRESS SPACEBAR TO CONTINUE", 550, 400);
+    text("PRESS SPACEBAR TO CONTINUE", 550, 600);
   }
   if (ball.y > height) {
-    ball.x = width / 2 - 100;
-    ball.y = height - 250;
+    ball.x = 0;
+    ball.y = 300;
+    ball.start = false;
     player.life--;
     if (player.life === 0) {
       mode = 2;
@@ -313,24 +345,28 @@ function keyPressed() {
   if (keyCode === ENTER && mode === 0) {
     mode = 1;
     loop();
-    if (
-      defender.length === 0 &&
-      attacker.length === 0 &&
-      midfielder.length === 0
-    ) {
-      for (let j = 0; j < defenderRows; j++) {
-        defender.push(new Defender(350 + 200 * j));
-      }
-      for (let j = 0; j < midfielderRows; j++) {
-        midfielder.push(new Midfielder(425 + 300 * j));
-      }
-      for (let j = 0; j < attackerRows; j++) {
-        attacker.push(new Attacker(455 + 300 * j));
-      }
-    }
+
+    // if (
+    //   defender.length === 0 &&
+    //   attacker.length === 0 &&
+    //   midfielder.length === 0
+    // ) {
+    //   for (let j = 0; j < defenderRows; j++) {
+    //     defender.push(new Defender(350 + 200 * j));
+    //   }
+    //   for (let j = 0; j < midfielderRows; j++) {
+    //     midfielder.push(new Midfielder(425 + 300 * j));
+    //   }
+    //   for (let j = 0; j < attackerRows; j++) {
+    //     attacker.push(new Attacker(455 + 300 * j));
+    //   }
+    // }
   }
   if (keyCode === 32 && (mode === 2 || 3)) {
     window.location.reload();
+  }
+  if (keyCode === 40 && mode === 1) {
+    ball.start = true;
   }
 }
 
@@ -338,14 +374,6 @@ function keyReleased() {
   player.moveLeft = false;
   player.moveRight = false;
 }
-
-// var score = player.score;
-// var highscore = localStorage.getItem("highscore");
-
-// if (highscore !== null) {
-//   if (score > highscore) {
-//     localStorage.setItem("highscore", score);
-//   }
-// } else {
-//   localStorage.setItem("highscore", score);
-// }
+function playMusic() {
+  if (mode === 1) crowdSound.play();
+}
