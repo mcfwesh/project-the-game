@@ -9,21 +9,3 @@ body {
     align-items: center;
     justify-content: center;
 }
-
-#record {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    left: 50px;
-
-}
-
-#timer {
-    font-size: 2em;
-}
-
-#score {
-    font-size: 2em;
-}
-
-#high-score {}

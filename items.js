@@ -36,7 +36,7 @@ class Items {
       let index = items.indexOf(this);
       items.splice(index, 1);
       player.score += 5;
-      player.length > 250 ? (player.length += 2) : (player.length = 250);
+      player.length < 250 ? (player.length += 2) : (player.length = 250);
       itemSound.play();
     } else if (this.reward === "slow ball") {
       let index = items.indexOf(this);
@@ -48,8 +48,8 @@ class Items {
     } else if (this.reward === "quick ball") {
       let index = items.indexOf(this);
       items.splice(index, 1);
-      ball.speedX += 0.5;
-      ball.speedY += 0.5;
+      ball.speedX += 1;
+      ball.speedY += 1;
       player.score > 0 ? player.score-- : (player.score = 0);
       itemSound.play();
     } else if (this.reward === "small player") {

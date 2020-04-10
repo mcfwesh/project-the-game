@@ -1,4 +1,6 @@
 let clockFont;
+// let instructions = document.getElementById("instructions").innerText;
+let testing = document.querySelector(".testing");
 let timerID = document.getElementById("timer");
 let mode;
 let timer = 60;
@@ -95,9 +97,12 @@ function draw() {
     textSize(100);
     fill(255);
     textFont(cursiveFont);
-    text("HEADBREAK", 550, 200);
+    text("HEADBREAK", 550, 50);
     textSize(50);
-    text("PRESS ENTER TO BEGIN", 550, 400);
+    text("PRESS ENTER TO BEGIN", 550, 700);
+    textSize(15);
+    fill("gold");
+    // text(instructions, 500, 250);
     return;
   } else if (mode === 1) {
     backgroundSound.stop();
@@ -132,6 +137,7 @@ function draw() {
       if (ball.hitOpponent(defender[i])) {
         ball.directionY *= -1;
         ball.directionX *= -1;
+        player.score += 2;
         // Get a random number that is from 0 and to the length -1 of the array of objects
         let randomNumber = Math.floor(Math.random() * rewardObject.length);
         let newItem = new Items(
@@ -160,6 +166,7 @@ function draw() {
       if (ball.hitOpponent(midfielder[i])) {
         ball.directionY *= -1;
         ball.directionX *= -1;
+        player.score += 2;
         // Get a random number that is from 0 and to the length -1 of the array of objects
         let randomNumber = Math.floor(Math.random() * rewardObject.length);
         let newItem = new Items(
@@ -196,6 +203,7 @@ function draw() {
       if (ball.hitOpponent(attacker[i])) {
         ball.directionY *= -1;
         ball.directionX *= -1;
+        player.score += 2;
         // Get a random number that is from 0 and to the length -1 of the array of objects
         let randomNumber = Math.floor(Math.random() * rewardObject.length);
         newItem = new Items(
@@ -265,7 +273,7 @@ function draw() {
     text(`TIMER: 0:${timer}`, 100, 20);
     text(`LIVES:${player.life}`, 1000, 20);
     text(`SCORE: 0${player.score}`, 300, 20);
-    text(`HI-SCORE: 0${highscore}`, 800, 20);
+    text(`HI-SCORE:${highscore}`, 800, 20);
   }
   //Finished sketch
   if (mode === 2) {
