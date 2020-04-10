@@ -100,9 +100,11 @@ function draw() {
     text("HEADBREAK", 550, 50);
     textSize(50);
     text("PRESS ENTER TO BEGIN", 550, 700);
-    textSize(15);
+    textSize(30);
     fill("gold");
-    // text(instructions, 500, 250);
+    text("Start the ball with the down arrow on the keyboard", 500, 300);
+    text("Avoid: Boots, Yellow Cards and Red cards", 500, 450);
+    text("Pick up: Medal and water bottle", 500, 480);
     return;
   } else if (mode === 1) {
     backgroundSound.stop();
