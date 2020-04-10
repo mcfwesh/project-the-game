@@ -4,8 +4,8 @@ class Items {
     this.breadth = 50;
     this.x = x;
     this.y = y;
-    this.speedX = 5;
-    this.speedY = 5;
+    this.speedX = 3;
+    this.speedY = 3;
     this.directionX = 1;
     this.directionY = 1;
     this.show = false;

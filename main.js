@@ -100,11 +100,16 @@ function draw() {
     text("HEADBREAK", 550, 50);
     textSize(50);
     text("PRESS ENTER TO BEGIN", 550, 700);
-    textSize(30);
+    textSize(25);
     fill("gold");
     text("Start the ball with the down arrow on the keyboard", 500, 300);
-    text("Avoid: Boots, Yellow Cards and Red cards", 500, 450);
-    text("Pick up: Medal and water bottle", 500, 480);
+    text(
+      "Any of these items can improve or decrease your experience:",
+      500,
+      450
+    );
+    text("Boots, Yellow Cards, Red cards, Medal and water bottle", 500, 480);
+    text("YOU ONLY HAVE 60 secs and 5 lives", 500, 350);
     return;
   } else if (mode === 1) {
     backgroundSound.stop();
