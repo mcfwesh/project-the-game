@@ -5,7 +5,7 @@ class Midfielder {
     this.length = 120;
     this.breadth = 150;
     this.collision = 0;
-    this.midfielderImage = loadImage("assets/midfielder2.png");
+    this.midfielderImage = loadImage("assets/images/midfielder.png");
     this.count = 2;
     this.direction = 1;
   }

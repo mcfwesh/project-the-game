@@ -7,7 +7,7 @@ class Goalpost {
     this.length = 250;
     this.breadth = 50;
     this.collision = 0;
-    this.goalpostImage = loadImage("assets/goalpost.png");
+    this.goalpostImage = loadImage("assets/images/goalpost.png");
     this.count = 3;
   }
   display() {
