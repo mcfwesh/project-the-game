@@ -7,7 +7,7 @@ class Keeper {
     this.length = 100;
     this.breadth = 100;
     this.collision = 0;
-    this.keeperImage = loadImage("assets/keeper.png");
+    this.keeperImage = loadImage("assets/images/keeper.png");
     this.count = 3;
   }
   display() {

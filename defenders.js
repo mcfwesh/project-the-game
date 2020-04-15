@@ -5,7 +5,7 @@ class Defender {
     this.length = 120;
     this.breadth = 150;
     this.collision = 0;
-    this.defenderImage = loadImage("assets/defender2.png");
+    this.defenderImage = loadImage("assets/image/defender.png");
     this.count = 3;
     this.direction = 1;
   }

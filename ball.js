@@ -7,7 +7,7 @@ class Ball {
     this.speedY = 5;
     this.directionX = 1;
     this.directionY = 1;
-    this.ballImage = loadImage("assets/soccer-ball-transparent.png");
+    this.ballImage = loadImage("assets/images/soccer-ball-transparent.png");
     this.start = false;
   }
   display() {

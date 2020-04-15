@@ -1,16 +1,16 @@
-class Attacker {
-  constructor(x) {
+class RivalPlayer {
+  constructor(x, y, imagePath, count) {
     this.x = x;
-    this.y = 330;
+    this.y = y;
     this.length = 120;
     this.breadth = 150;
     this.collision = 0;
-    this.attackerImage = loadImage("assets/images/attacker.png");
-    this.count = 2;
+    this.midfielderImage = loadImage(`assets/images/${imagePath}.png`);
+    this.count = count;
     this.direction = 1;
   }
   display() {
-    image(this.attackerImage, this.x, this.y, this.length, this.breadth);
+    image(this.midfielderImage, this.x, this.y, this.length, this.breadth);
   }
   move() {
     if (this.collision != 0) {

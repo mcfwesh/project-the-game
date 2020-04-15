@@ -4,7 +4,7 @@ class Player {
     this.breadth = 30;
     this.x = (width - this.length) / 2;
     this.y = height - 120;
-    this.playerImage = loadImage("assets/player.png");
+    this.playerImage = loadImage("assets/images/player.png");
     this.health = 3;
     this.moveRight = false;
     this.moveLeft = false;
