@@ -65,10 +65,6 @@ function preload() {
   clockFont = loadFont("assets/fonts/digital-7 (mono italic).ttf");
   cursiveFont = loadFont("assets/fonts/cursive.otf");
 
-  /* for (let i = 0; i < rewardObject.length; i++) {
-    rewardObject[i].img = loadImage(rewardObject[i].img);
-  } */
-  // forEach is fastest loop
   rewardObject.forEach((r) => {
     r.img = loadImage(r.img);
   });
@@ -76,23 +72,17 @@ function preload() {
 function setup() {
   mode = 0;
   backgroundSound.playMode("restart");
-  let canvas = createCanvas(1100, 780);
+  let canvas = createCanvas(1100, 768);
   canvas.parent("canvas");
   player = new Player();
   ball = new Ball();
 
-  // defender
-  /* for (let j = 0; j < defenderRows; j++) {
-    defender.push(new RivalPlayer(150 + 200 * j, 20, "defender", 3));
-  } */
   for (let j = 0; j < midfielderRows; j++) {
     defender.push(new RivalPlayer(150 + 200 * j, 20, "defender", 3));
     midfielder.push(new RivalPlayer(150 + 200 * j, 180, "midfielder", 2));
     attacker.push(new RivalPlayer(150 + 200 * j, 330, "attacker", 2));
   }
-  /* for (let j = 0; j < attackerRows; j++) {
-    attacker.push(new RivalPlayer(150 + 200 * j, 330, "attacker", 2));
-  } */
+
   goalpost = new Goalpost();
   keeper = new Keeper();
   noLoop();
@@ -275,22 +265,6 @@ function keyPressed() {
   if (keyCode === ENTER && mode === 0) {
     mode = 1;
     loop();
-
-    // if (
-    //   defender.length === 0 &&
-    //   attacker.length === 0 &&
-    //   midfielder.length === 0
-    // ) {
-    //   for (let j = 0; j < defenderRows; j++) {
-    //     defender.push(new Defender(350 + 200 * j));
-    //   }
-    //   for (let j = 0; j < midfielderRows; j++) {
-    //     midfielder.push(new Midfielder(425 + 300 * j));
-    //   }
-    //   for (let j = 0; j < attackerRows; j++) {
-    //     attacker.push(new Attacker(455 + 300 * j));
-    //   }
-    // }
   }
   if (keyCode === 32 && (mode === 2 || 3)) {
     window.location.reload();
@@ -313,10 +287,12 @@ function drawMenuText() {
   textAlign(CENTER, TOP);
   textSize(100);
   fill(255);
+  stroke(50);
+  strokeWeight(10);
   textFont(cursiveFont);
   text("HEADBREAK", 550, 50);
   textSize(50);
-  text("PRESS ENTER TO BEGIN", 550, 700);
+  text("PRESS ENTER TO BEGIN", 550, 650);
   textSize(25);
   fill("gold");
   text("Start the ball with the down arrow on the keyboard", 500, 300);

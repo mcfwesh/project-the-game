@@ -41,15 +41,15 @@ class Items {
     } else if (this.reward === "slow ball") {
       let index = items.indexOf(this);
       items.splice(index, 1);
-      ball.speedX -= 1;
-      ball.speedY -= 1;
+      ball.speedX -= 0.3;
+      ball.speedY -= 0.3;
       player.score += 5;
       itemSound.play();
     } else if (this.reward === "quick ball") {
       let index = items.indexOf(this);
       items.splice(index, 1);
-      ball.speedX += 1;
-      ball.speedY += 1;
+      ball.speedX += 1.5;
+      ball.speedY += 1.5;
       player.score > 0 ? player.score-- : (player.score = 0);
       itemSound.play();
     } else if (this.reward === "small player") {

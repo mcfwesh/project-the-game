@@ -28,9 +28,7 @@ class Ball {
       this.directionX *= -1;
     } else if (this.y - this.r <= 0 && this.directionY < 0) {
       this.directionY *= -1;
-    } //else if (this.y + this.r >=  height && this.directionY > 0) {
-    //   this.directionY *= -1;
-    // }
+    }
   }
   playerMeet(player) {
     if (
@@ -40,7 +38,6 @@ class Ball {
       this.x - this.r < player.x + player.length &&
       this.directionY > 0
     ) {
-      //this.start = true;
       this.directionY *= -1;
       kickSound.play();
     }
